@@ -110,18 +110,37 @@ def generate_invitation():
                     width += 45
         return width
 
+    # if len(name) > 20:
+    #     return "Error: Name is too long!", 400
+
+    # font_pil = ImageFont.truetype("./FZXIANGSU12.TTF", 80)
+    # draw = ImageDraw.Draw(img)
+    # text_width = get_text_width(name, font_pil)
+    # width = (img.width - text_width) / 2 + 5
+    # height = (img.height) / 2 - 30
+    # draw.text((width, height), name, font=font_pil, fill=(255, 255, 255))
+
+
+    # img.paste(avatar, (((img.width) //2 - 118),((img.height) // 2 - 300)), avatar)
+
+    # output_buffer = BytesIO()
+    # img.save(output_buffer, format='JPEG')
+    # output_buffer.seek(0)
+
+    # return send_file(output_buffer, mimetype='image/jpeg', as_attachment=True, attachment_filename='invitation.jpg')
     if len(name) > 20:
         return "Error: Name is too long!", 400
 
     font_pil = ImageFont.truetype("./FZXIANGSU12.TTF", 80)
     draw = ImageDraw.Draw(img)
+    x0, y0 = img.size
+    ascent, descent = font_pil.getsize(name)
     text_width = get_text_width(name, font_pil)
-    width = (img.width - text_width) / 2 + 5
+    x = x0 / 2 - ascent / 2
     height = (img.height) / 2 - 30
-    draw.text((width, height), name, font=font_pil, fill=(255, 255, 255))
+    draw.text((x, height), name.encode('unicode_escape').decode('unicode_escape'), font=font_pil, fill=(255, 255, 255))
 
-
-    img.paste(avatar, (((img.width) //2 - 110),((img.height) // 2 - 300)), avatar)
+    img.paste(avatar, (((img.width) //2 - 118),((img.height) // 2 - 300)), avatar)
 
     output_buffer = BytesIO()
     img.save(output_buffer, format='JPEG')
