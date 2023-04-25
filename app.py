@@ -36,7 +36,7 @@ def delete_local_file(src):
 #     return img
 
 def crop_circle_avatar(img):
-    img = img.resize((240, 240), Image.ANTIALIAS)  # 将头像调整为 240x240 大小
+    img = img.resize((320, 320), Image.ANTIALIAS)  # 将头像调整为 320, 320 大小
     bigsize = (img.size[0] * 3, img.size[1] * 3)
     mask = Image.new('L', bigsize, 0)
     draw = ImageDraw.Draw(mask)
@@ -131,16 +131,19 @@ def generate_invitation():
     if len(name) > 20:
         return "Error: Name is too long!", 400
 
-    font_pil = ImageFont.truetype("./FZXIANGSU12.TTF", 80)
+    # font_pil = ImageFont.truetype("./FZXIANGSU12.TTF", 80)
+    font_pil = ImageFont.truetype("STXINWEI.TTF",100, encoding="unic")
     draw = ImageDraw.Draw(img)
     x0, y0 = img.size
     ascent, descent = font_pil.getsize(name)
     text_width = get_text_width(name, font_pil)
     x = x0 / 2 - ascent / 2
-    height = (img.height) / 2 - 30
+    # height = (img.height) / 2 - 30
+    height = (img.height) / 2 +10
     draw.text((x, height), name.encode('unicode_escape').decode('unicode_escape'), font=font_pil, fill=(255, 255, 255))
 
-    img.paste(avatar, (((img.width) //2 - 118),((img.height) // 2 - 300)), avatar)
+    #img.paste(avatar, (((img.width) //2 - 118),((img.height) // 2 - 300)), avatar)
+    img.paste(avatar, (((img.width) //2-160),((img.height) // 2 -400 )), avatar)
 
     output_buffer = BytesIO()
     img.save(output_buffer, format='JPEG')
